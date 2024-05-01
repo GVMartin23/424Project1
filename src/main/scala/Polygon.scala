@@ -1,7 +1,7 @@
-import java.awt.geom.Path2D
+import java.awt.geom.{Path2D, Point2D}
 
 class Polygon(edges: List[(Double, Double)]) {
-  lazy val shape:Path2D = {
+  private lazy val shape: Path2D = {
     val path: Path2D = new Path2D.Double()
 
     // Move to the first point in the polygon
@@ -13,7 +13,6 @@ class Polygon(edges: List[(Double, Double)]) {
   }
 
   def contains(point: (Double, Double)): Boolean = {
-    //TODO: Complete
-    true
+    shape.contains(new Point2D.Double(point._1, point._2))
   }
 }
