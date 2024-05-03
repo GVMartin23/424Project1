@@ -1,7 +1,7 @@
 import java.awt.geom.{Path2D, Point2D}
 
 class Polygon(edges: List[(Double, Double)]) {
-  lazy val shape: Path2D = {
+  private lazy val shape: Path2D = {
     val path: Path2D = new Path2D.Double()
 
     // Move to the first point in the polygon
