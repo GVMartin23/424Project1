@@ -5,6 +5,8 @@ import scala.io.StdIn.readLine
   //Get user input until ":quit" is entered
   var query: String = ""
   var point: List[String] = List()
+  val pois = PointOfInterestIO.loadRows()
+  println(pois)
   while {
     println("Enter a point to search nearby format 'lat long' or (:quit) to quit")
 
