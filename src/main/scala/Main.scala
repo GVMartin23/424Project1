@@ -1,4 +1,3 @@
-import scala.collection.parallel.CollectionConverters.*
 import scala.io.StdIn.readLine
 
 @main def main():Unit={
@@ -6,10 +5,16 @@ import scala.io.StdIn.readLine
   var query: String = ""
   var point: List[String] = List()
   val pois = PointOfInterestIO.loadRows()
-  println(pois)
   while {
+    println(
+    """
+    Welcome to
+       _           _                  _        _         _
+      | |___ _ _ _|_|___    ___ ___ _| |   ___| |___ ___| |_
+      | | -_| | | | |_ -|  | .'|   | . |  |  _| | .'|  _| '_|
+      |_|___|_____|_|___|  |__,|_|_|___|  |___|_|__,|_| |_,_|
+    """)
     println("Enter a point to search nearby format 'lat long' or (:quit) to quit")
-
     query = readLine(">")
 
     point = query.trim.split(' ').toList
