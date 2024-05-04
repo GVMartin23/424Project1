@@ -1,6 +1,12 @@
 import scala.io.Source
 
-case class PointOfInterest(name: String, latitudeRadian: Double, longitudeRadian: Double)
+class PointOfInterest(name: String, private val latitudeRadian: Double, private val longitudeRadian: Double) {
+  def latitude: Double = latitudeRadian * (180 / Math.PI)
+  def longitude: Double = longitudeRadian * (180 / Math.PI)
+  override def toString: String = {
+    s"${name} http://maps.google.com/maps?z=12&t=m&q=loc:${latitude}+${longitude}"
+  }
+}
 
 object PointOfInterestIO {
   def loadRows(): List[PointOfInterest] = {

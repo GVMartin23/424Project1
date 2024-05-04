@@ -5,6 +5,7 @@ import scala.io.StdIn.readLine
   var query: String = ""
   var point: List[String] = List()
   val pois = PointOfInterestIO.loadRows()
+  println(pois)
   while {
     println(
     """
