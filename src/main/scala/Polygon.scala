@@ -6,7 +6,7 @@ class Polygon(edges: List[(Double, Double)]) {
 
     // Move to the first point in the polygon
     path.moveTo(edges.head._1, edges.head._2)
-    edges.tail.foreach((lat, long) => path.lineTo(lat, long))
+    edges.tail.foreach((long, lat) => path.lineTo(long, lat))
     // Close the path
     path.closePath()
     path
