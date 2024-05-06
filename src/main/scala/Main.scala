@@ -8,7 +8,6 @@ import scala.io.StdIn.readLine
   val poiList = List(POI1, POI2, POI3)
   val testPoint = (360.0, 180.0)
   println(findClosestToCenter(poiList, testPoint).toString)
-  println(Math.sqrt(0.0))
   //Get user input until ":quit" is entered
   var query: String = ""
   var point: List[String] = List()
