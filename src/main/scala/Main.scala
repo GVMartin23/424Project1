@@ -42,7 +42,7 @@ import scala.io.StdIn.readLine
       //TODO: Or you can just use the first polygon idc
       val shapes: List[Polygon] = edges.map(shapeConstructor)
       
-      val resultsPerShape = shapes.map(filterPois(pois, _))
+      val resultsPerShape = shapes.map(POIFilter.filterPois(pois, _))
 
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
