@@ -1,12 +1,13 @@
 import scala.io.StdIn.readLine
 
 @main def main():Unit={
-  val POI1 = PointOfInterest("POI1", 0.2, 0.2)
-  val POI2 = PointOfInterest("POI2", .9, .9)
-  val POI3 = PointOfInterest("POI3", 0.6, 0.6)
+  val POI1 = PointOfInterest("POI1", Math.PI, Math.PI/2)
+  val POI2 = PointOfInterest("POI2", Math.PI/2, Math.PI/4)
+  val POI3 = PointOfInterest("POI3", Math.PI/4, Math.PI/8)
 
   val poiList = List(POI1, POI2, POI3)
-  val testPoint = (0.5, 0.5)
+  val testPoint = (Math.PI, Math.PI/2)
+  //.42 vs .14...should be smaller...
   println(findClosestToCenter(poiList, testPoint).toString)
   //Get user input until ":quit" is entered
   var query: String = ""
