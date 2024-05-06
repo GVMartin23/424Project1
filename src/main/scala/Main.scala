@@ -6,9 +6,9 @@ import scala.io.StdIn.readLine
   val POI3 = PointOfInterest("POI3", Math.PI/4, Math.PI/8)
 
   val poiList = List(POI1, POI2, POI3)
-  val testPoint = (Math.PI, Math.PI/2)
-  //.42 vs .14...should be smaller...
+  val testPoint = (360.0, 180.0)
   println(findClosestToCenter(poiList, testPoint).toString)
+  println(Math.sqrt(0.0))
   //Get user input until ":quit" is entered
   var query: String = ""
   var point: List[String] = List()
@@ -42,7 +42,7 @@ import scala.io.StdIn.readLine
       //TODO: Filter list of places by each polygon in list
       //TODO: Or you can just use the first polygon idc
       val shapes: List[Polygon] = edges.map(shapeConstructor)
-      
+
       val resultsPerShape = shapes.map(filterPois(pois, _))
 
     } catch
