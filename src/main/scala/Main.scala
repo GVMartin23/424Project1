@@ -41,7 +41,9 @@ import scala.io.StdIn.readLine
 
       //TODO: Filter list of places by each polygon in list
       //TODO: Or you can just use the first polygon idc
-      val shape: List[Polygon] = edges.map(shapeConstructor)
+      val shapes: List[Polygon] = edges.map(shapeConstructor)
+      
+      val resultsPerShape = shapes.map(filterPois(pois, _))
 
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
