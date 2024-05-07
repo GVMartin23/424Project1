@@ -35,32 +35,32 @@ object POIFilter {
     val belowLatitudeRadians = aboveLatitudeRadians * -1
     println(aboveLatitudeRadians)
 
-    //Since we are going over the pole, our longitude now becomes offset 180 or -180
-    //depending on if longitude is positive or negative, so we do both twice for full coverage
-    val longitudeAdjustmentRadians = Math.toRadians(180)
-
     //Radians are private, need to convert to create
     val originalPOILatitudeRadians = Math.toRadians(poi.latitude)
     val originalPOILongitudeRadians = Math.toRadians(poi.longitude)
 
-    val upRight = PointOfInterest(poi.name, aboveLatitudeRadians, originalPOILongitudeRadians + longitudeAdjustmentRadians)
-    val upFarRight = PointOfInterest(poi.name, aboveLatitudeRadians, originalPOILongitudeRadians + (2 * longitudeAdjustmentRadians))
-    val upLeft = PointOfInterest(poi.name, aboveLatitudeRadians, originalPOILongitudeRadians - longitudeAdjustmentRadians)
-    val upFarLeft = PointOfInterest(poi.name, aboveLatitudeRadians, originalPOILongitudeRadians - (2 * longitudeAdjustmentRadians))
+    //Since we are going over the pole, our longitude now becomes offset 180 or -180
+    //depending on if longitude is positive or negative, negative must go to positive vice versa
+    val longitudeAdjustmentRadians = Math.toRadians(180) * (if originalPOILongitudeRadians > 0 then -1 else 1)
 
-    val downRight = PointOfInterest(poi.name, belowLatitudeRadians, originalPOILongitudeRadians + longitudeAdjustmentRadians)
-    val downFarRight = PointOfInterest(poi.name, belowLatitudeRadians, originalPOILongitudeRadians + (2 * longitudeAdjustmentRadians))
-    val downLeft = PointOfInterest(poi.name, belowLatitudeRadians, originalPOILongitudeRadians - longitudeAdjustmentRadians)
-    val downFarLeft = PointOfInterest(poi.name, belowLatitudeRadians, originalPOILongitudeRadians - (2 * longitudeAdjustmentRadians))
+    val up = PointOfInterest(poi.name, aboveLatitudeRadians, originalPOILongitudeRadians + longitudeAdjustmentRadians)
+    val down = PointOfInterest(poi.name, belowLatitudeRadians, originalPOILongitudeRadians + longitudeAdjustmentRadians)
 
+    val twoPI = Math.PI*2
     //Going strictly left or right is easy since we can just shift all points left or right and wrap
     val right = PointOfInterest(poi.name, originalPOILatitudeRadians, originalPOILongitudeRadians + Math.PI*2)
     val left = PointOfInterest(poi.name, originalPOILatitudeRadians, originalPOILongitudeRadians - Math.PI*2)
+    
+    
+    val upRight = PointOfInterest(poi.name, aboveLatitudeRadians, Math.toRadians(up.longitude) + twoPI)
+    val upLeft = PointOfInterest(poi.name, aboveLatitudeRadians, Math.toRadians(up.longitude) - twoPI)
+    val downRight = PointOfInterest(poi.name, belowLatitudeRadians, Math.toRadians(down.longitude) + twoPI)
+    val downLeft = PointOfInterest(poi.name, belowLatitudeRadians, Math.toRadians(down.longitude) - twoPI)
 
-    println(List(poi, right, left, upRight, upLeft, downRight, downLeft, upRight, upFarRight, upLeft, upFarLeft, downRight, downFarRight, downLeft, downFarLeft))
+    println(List(poi, right, left, upRight, upLeft, downRight, downLeft, upRight, upLeft, downRight))
 
     //Original POI is left at head so easy to re-grab from list
-    List(poi, right, left, upRight, upLeft, downRight, downLeft, upRight, upFarRight, upLeft, upFarLeft, downRight, downFarRight, downLeft, downFarLeft)
+    List(poi, right, left, up, down upRight, upLeft, downRight, downLeft, upRight, upLeft, downLeft)
   }
 }
 
