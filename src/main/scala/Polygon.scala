@@ -22,7 +22,7 @@ object Polygon {
     //Starting point (directly north of center)
     val northPoint = (center._1, center._2 + radius)
 
-    if numEdges < 3 then throw Exception("Need more edges to form a polygon")
+    if numEdges < 3 then throw IllegalArgumentException("Need more edges to form a polygon")
     //Find how much to rotate for each point
     val rotation = 360.toDouble / numEdges
 

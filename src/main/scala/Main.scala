@@ -1,6 +1,6 @@
 import scala.io.StdIn.readLine
 
-@main def main():Unit={
+@main def main(): Unit = {
   //Get user input until ":quit" is entered
   var query: String = ""
   var point: List[String] = List()
@@ -40,15 +40,16 @@ import scala.io.StdIn.readLine
         println("No points found within the polygon. Please try again using different parameters")
       } else {
         val sortStartTime = System.currentTimeMillis()
-        val result = POISortPar.sort(resultsPerShape, pointVal, POISortPar.manhattanDistance)
+        val result = POISortPar.sort(resultsPerShape, pointVal, POISortPar.equirectangular)
         val sortTime = System.currentTimeMillis() - sortStartTime
         val subsetSize = Math.min(10, result.size)
         println(s"Top ${subsetSize} Points closest to the center of the shape:")
-        result.slice(0, subsetSize).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1}"))
-        println(s"${result.size} points within the shape. Took ${sortTime + filterTime}ms\n to calculate.")
+        result.slice(0, subsetSize).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1._1} ${Math.round(item._1._2)} kms in distance."))
+        println(s"${result.size} points within the shape. Took ${sortTime + filterTime} ms to calculate.\n")
       }
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
       case i: IndexOutOfBoundsException => println("Make sure to provide enough inputs (need two inputs for 'lat' and 'long')")
+      case ia: IllegalArgumentException => println(ia.getMessage)
   }
 }
