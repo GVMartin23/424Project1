@@ -42,7 +42,7 @@ import scala.io.StdIn.readLine
       }else {
         println("Points closes to the center of the shape:")
         val sortStartTime = System.currentTimeMillis()
-        POISort.sort(resultsPerShape, pointVal, POISort.euclideanDistance).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1}"))
+        POISortPar.sort(resultsPerShape, pointVal, POISortPar.euclideanDistance).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1}"))
         val sortTime = System.currentTimeMillis() - sortStartTime
         println(s"Took ${sortTime + filterTime}ms\n")
       }
