@@ -27,14 +27,12 @@ trait POISort {
 
 object POISortPar extends POISort {
   def sort(pointOfInterests: Vector[PointOfInterest], pointVal: (Double, Double), distanceFormula: (a: PointOfInterest, b: (Double, Double)) => Double): Vector[PointOfInterest] = {
-    val result = pointOfInterests.zipWithIndex.par.map(item => (item._2, distanceFormula(item._1, pointVal))).seq.sortBy(_._2)
-    result.slice(0, Math.min(10, result.size)).map(item => pointOfInterests(item._1))
+    pointOfInterests.zipWithIndex.par.map(item => (item._2, distanceFormula(item._1, pointVal))).seq.sortBy(_._2).map(item => pointOfInterests(item._1))
   }
 }
 
 object POIShortSeq extends POISort {
   def sort(pointOfInterests: Vector[PointOfInterest], pointVal: (Double, Double), distanceFormula: (PointOfInterest, (Double, Double)) => Double): Vector[PointOfInterest] = {
-    val result = pointOfInterests.sortBy(distanceFormula(_, pointVal))
-    result.slice(0, Math.min(10, result.size))
+    pointOfInterests.sortBy(distanceFormula(_, pointVal))
   }
 }
