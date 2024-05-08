@@ -66,7 +66,7 @@ object POIFilterSeq {
 object POIFilterPar {
   def filterPois(pois: Vector[PointOfInterest], shape: Polygon): Vector[PointOfInterest] = {
     //Take a Poi, map it to a list of equivalent poi's, then check if any of those are contained within the shape, if any are, keep shape
-    pois.map(poiToList).par.filter(item => poiListContains(item, shape)).map(_.head).seq.toVector
+    pois.par.map(poiToList).filter(item => poiListContains(item, shape)).map(_.head).seq.toVector
   }
 
   private def shapeContainsPoi(shape: Polygon, poi: PointOfInterest): Boolean = {

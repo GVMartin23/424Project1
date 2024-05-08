@@ -6,24 +6,24 @@ import scala.io.StdIn.readLine
   var point: List[String] = List()
   val pois = POIData.loadRows()
 
-  while {
-    println(
+  println(
     """
-    Welcome to
-       _           _                  _        _         _
-      | |___ _ _ _|_|___    ___ ___ _| |   ___| |___ ___| |_
-      | | -_| | | | |_ -|  | .'|   | . |  |  _| | .'|  _| '_|
-      |_|___|_____|_|___|  |__,|_|_|___|  |___|_|__,|_| |_,_|
-    """)
-    println("Enter a point to search nearby format 'lat long' or (:quit) to quit")
-    query = readLine(">")
+  Welcome to
+     _           _                  _        _         _
+    | |___ _ _ _|_|___    ___ ___ _| |   ___| |___ ___| |_
+    | | -_| | | | |_ -|  | .'|   | . |  |  _| | .'|  _| '_|
+    |_|___|_____|_|___|  |__,|_|_|___|  |___|_|__,|_| |_,_|
+  """)
+  println("Enter a point to search nearby format 'lat long' or (:quit) to quit")
+  while {
+    query = readLine("> ")
     point = query.trim.split(' ').toList
     point != List(":quit")
   } do {
     try {
       val pointVal: (Double, Double) = (point.head.toDouble, point(1).toDouble)
-      val radius: Double = readLine("radius>").trim.split(' ').head.toDouble //Don't care if there are too many inputs, only want first
-      val edges: List[Int] = readLine("which polygons>").trim.split(' ').map(_.toInt).toList
+      val radius: Double = readLine("radius> ").trim.split(' ').head.toDouble //Don't care if there are too many inputs, only want first
+      val edges: List[Int] = readLine("which polygons> ").trim.split(' ').map(_.toInt).toList
 
       //Can use this in case we want multiple polygons of same center and radius
       //This returns a function that takes a number of edges and returns a polygon
@@ -32,13 +32,19 @@ import scala.io.StdIn.readLine
       //TODO: Filter list of places by each polygon in list
       //TODO: Or you can just use the first polygon idc
       val shapes: List[Polygon] = edges.map(shapeConstructor)
-      
-      val resultsPerShape = POIFilterSeq.filterPois(pois.toVector, shapes.head)
+
+      val filterStartTime = System.currentTimeMillis()
+      val resultsPerShape = POIFilterPar.filterPois(pois.toVector, shapes.head)
+      val filterTime = System.currentTimeMillis() - filterStartTime
+
       if(resultsPerShape.isEmpty){
         println("No points found within the polygon. Please try again using different parameters")
       }else {
         println("Points closes to the center of the shape:")
-        POISort.sort(resultsPerShape, pointVal).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1}"))
+        val sortStartTime = System.currentTimeMillis()
+        POISort.sort(resultsPerShape, pointVal, POISort.euclideanDistance).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1}"))
+        val sortTime = System.currentTimeMillis() - sortStartTime
+        println(s"Took ${sortTime + filterTime}ms\n")
       }
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
