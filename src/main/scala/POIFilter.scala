@@ -1,7 +1,7 @@
 import scala.collection.parallel.CollectionConverters.*
 
 trait POIFilter {
-  def filterPois(pois: Vector[PointOfInterest], shape: Polygon) :Vector[PointOfInterest]
+  def filterPois(pois: Vector[PointOfInterest], shapes: List[Polygon]): Vector[PointOfInterest]
 
   def shapeContainsPoi(shape: Polygon, poi: PointOfInterest): Boolean = {
     shape.contains(poi.longitude, poi.latitude)
@@ -62,15 +62,16 @@ trait POIFilter {
 }
 
 object POIFilterSeq extends POIFilter {
-  def filterPois(pois: Vector[PointOfInterest], shape: Polygon): Vector[PointOfInterest] = {
+  def filterPois(pois: Vector[PointOfInterest], shapes: List[Polygon]): Vector[PointOfInterest] = {
     //Take a Poi, map it to a list of equivalent poi's, then check if any of those are contained within the shape, if any are, keep shape
-    pois.map(poiToList).filter(item => poiListContains(item, shape)).map(_.head)
+    pois.map(poiToList).filter(item => shapes.forall(shape => poiListContains(item, shape))).map(_.head)
   }
 }
 
 object POIFilterPar extends POIFilter {
-  def filterPois(pois: Vector[PointOfInterest], shape: Polygon): Vector[PointOfInterest] = {
+  def filterPois(pois: Vector[PointOfInterest], shapes: List[Polygon]): Vector[PointOfInterest] = {
     //Take a Poi, map it to a list of equivalent poi's, then check if any of those are contained within the shape, if any are, keep shape
-    pois.par.map(poiToList).filter(item => poiListContains(item, shape)).map(_.head).seq.toVector
+    // why _.head?
+    pois.par.map(poiToList).filter(item => shapes.forall(shape => poiListContains(item, shape))).map(_.head).seq.toVector
   }
 }

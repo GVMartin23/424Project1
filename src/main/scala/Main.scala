@@ -34,7 +34,7 @@ import scala.io.StdIn.readLine
       val shapes: List[Polygon] = edges.map(shapeConstructor)
 
       val filterStartTime = System.currentTimeMillis()
-      val resultsPerShape = POIFilterPar.filterPois(pois.toVector, shapes.head)
+      val resultsPerShape = POIFilterPar.filterPois(pois.toVector, shapes)
       val filterTime = System.currentTimeMillis() - filterStartTime
 
       if(resultsPerShape.isEmpty){
