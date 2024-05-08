@@ -4,8 +4,8 @@ import scala.io.StdIn.readLine
   //Get user input until ":quit" is entered
   var query: String = ""
   var point: List[String] = List()
-  val pois = PointOfInterestIO.loadRows()
-//  println(pois)
+  val pois = POIData.loadRows()
+
   while {
     println(
     """
@@ -17,9 +17,7 @@ import scala.io.StdIn.readLine
     """)
     println("Enter a point to search nearby format 'lat long' or (:quit) to quit")
     query = readLine(">")
-
     point = query.trim.split(' ').toList
-
     point != List(":quit")
   } do {
     try {
@@ -35,14 +33,12 @@ import scala.io.StdIn.readLine
       //TODO: Or you can just use the first polygon idc
       val shapes: List[Polygon] = edges.map(shapeConstructor)
       
-      val resultsPerShape = POIFilter.filterPois(pois, shapes.head)
+      val resultsPerShape = POIFilterSeq.filterPois(pois.toVector, shapes.head)
       if(resultsPerShape.isEmpty){
         println("No points found within the polygon. Please try again using different parameters")
       }else {
-        println("POis:")
-        println(resultsPerShape.toString())
-        println("Point closes to the center of the shape:")
-        println(findClosestToCenter(resultsPerShape, pointVal).toString)
+        println("Points closes to the center of the shape:")
+        POISort.sort(resultsPerShape, pointVal).zipWithIndex.foreach(item => println(s"${item._2 + 1}. ${item._1}"))
       }
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
