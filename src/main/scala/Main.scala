@@ -1,13 +1,6 @@
 import scala.io.StdIn.readLine
 
 @main def main():Unit={
-  val POI1 = PointOfInterest("POI1", 0.2, 0.2)
-  val POI2 = PointOfInterest("POI2", .9, .9)
-  val POI3 = PointOfInterest("POI3", 0.6, 0.6)
-
-  val poiList = List(POI1, POI2, POI3)
-  val testPoint = (0.5, 0.5)
-  println(findClosestToCenter(poiList, testPoint).toString)
   //Get user input until ":quit" is entered
   var query: String = ""
   var point: List[String] = List()
@@ -42,8 +35,15 @@ import scala.io.StdIn.readLine
       //TODO: Or you can just use the first polygon idc
       val shapes: List[Polygon] = edges.map(shapeConstructor)
       
-      val resultsPerShape = shapes.map(POIFilter(pois, _))
-
+      val resultsPerShape = POIFilter.filterPois(pois, shapes.head)
+      if(resultsPerShape.isEmpty){
+        println("No points found within the polygon. Please try again using different parameters")
+      }else {
+        println("POis:")
+        println(resultsPerShape.toString())
+        println("Point closes to the center of the shape:")
+        println(findClosestToCenter(resultsPerShape, pointVal).toString)
+      }
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
       case i: IndexOutOfBoundsException => println("Make sure to provide enough inputs (need to inputs for 'lat' and 'long')")

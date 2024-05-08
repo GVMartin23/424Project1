@@ -57,10 +57,10 @@ object POIFilter {
     val downRight = PointOfInterest(poi.name, belowLatitudeRadians, Math.toRadians(down.longitude) + twoPI)
     val downLeft = PointOfInterest(poi.name, belowLatitudeRadians, Math.toRadians(down.longitude) - twoPI)
 
-    println(List(poi, right, left, upRight, upLeft, downRight, downLeft, upRight, upLeft, downRight))
+    //println(List(poi, right, left, upRight, upLeft, downRight, downLeft, upRight, upLeft, downRight))
 
     //Original POI is left at head so easy to re-grab from list
-    List(poi, right, left, up, down upRight, upLeft, downRight, downLeft, upRight, upLeft, downLeft)
+    List(poi, right, left, up, down, upRight, upLeft, downRight, downLeft, upRight, upLeft, downLeft)
   }
 }
 
