@@ -49,6 +49,6 @@ import scala.io.StdIn.readLine
       }
     } catch
       case e: NumberFormatException => println("Please input valid doubles")
-      case i: IndexOutOfBoundsException => println("Make sure to provide enough inputs (need to inputs for 'lat' and 'long')")
+      case i: IndexOutOfBoundsException => println("Make sure to provide enough inputs (need two inputs for 'lat' and 'long')")
   }
 }
