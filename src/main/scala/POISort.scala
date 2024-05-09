@@ -1,6 +1,7 @@
+import scala.annotation.tailrec
 import scala.collection.parallel.CollectionConverters.*
 
-trait POISort {
+trait SphericalDistancesKM {
   private final val EARTH_RADIUS = 6371
 
   def haversineDistance(pointOfInterest: PointOfInterest, point: (Double, Double)): Double = {
@@ -23,14 +24,14 @@ trait POISort {
   }
 }
 
-object POISortPar extends POISort {
+object POISortPar extends SphericalDistancesKM {
   def sort(pointOfInterests: Vector[PointOfInterest], pointVal: (Double, Double), distanceFormula: (PointOfInterest, (Double, Double)) => Double): Vector[(PointOfInterest, Double)] = {
     pointOfInterests.zipWithIndex.par.map(item => (item._2, distanceFormula(item._1, pointVal))).seq.sortBy(_._2).map(item => (pointOfInterests(item._1), item._2))
   }
 }
 
-object POIShortSeq extends POISort {
+object POISortSeq extends SphericalDistancesKM {
   def sort(pointOfInterests: Vector[PointOfInterest], pointVal: (Double, Double), distanceFormula: (PointOfInterest, (Double, Double)) => Double): Vector[(PointOfInterest, Double)] = {
-    pointOfInterests.zipWithIndex.map(item => (item._2, distanceFormula(item._1, pointVal))).seq.sortBy(_._2).map(item => (pointOfInterests(item._1), item._2))
+    pointOfInterests.zipWithIndex.map(item => (item._2, distanceFormula(item._1, pointVal))).sortBy(_._2).map(item => (pointOfInterests(item._1), item._2))
   }
 }
