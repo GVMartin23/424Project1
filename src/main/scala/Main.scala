@@ -32,14 +32,14 @@ import scala.io.StdIn.readLine
 
       val shapes: List[Polygon] = edges.map(shapeConstructor)
       val filterStartTime = System.currentTimeMillis()
-      val resultsPerShape = POIFilterSeq.filterPois(pois.toVector, shapes)
+      val resultsPerShape = POIFilterPar.filterPois(pois.toVector, shapes)
       val filterTime = System.currentTimeMillis() - filterStartTime
 
       if (resultsPerShape.isEmpty) {
         println("No points found within the polygon. Please try again using different parameters")
       } else {
         val sortStartTime = System.currentTimeMillis()
-        val result = POISortSeq.sort(resultsPerShape, pointVal, POISortSeq.haversineDistance)
+        val result = POISortPar.sort(resultsPerShape, pointVal, POISortPar.haversineDistance)
         val sortTime = System.currentTimeMillis() - sortStartTime
         val subsetSize = Math.min(10, result.size)
         println(s"Top $subsetSize Points closest to the center of the shape:")
